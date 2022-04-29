@@ -10,17 +10,16 @@ import (
 	"os"
 	"strings"
 
-	log "github.com/juriroemer/cs3probes/pkg/logging"
-	tests "github.com/juriroemer/cs3probes/pkg/tests"
+	log "github.com/Daniel-WWU-IT/cs3probes/pkg/logging"
+	"github.com/Daniel-WWU-IT/cs3probes/pkg/tests"
 )
 
 // Setup variables
 
 var (
-	target 				string
-	insecure           bool
-	warnLimit, percentile		int
-
+	target                string
+	insecure              bool
+	warnLimit, percentile int
 )
 
 // Setup return values
@@ -32,8 +31,6 @@ const (
 	checkUnknown = 3
 )
 
-
-
 func init() {
 
 	// Setup commandline flags
@@ -44,7 +41,6 @@ func init() {
 	flag.Parse()
 }
 
-
 func main() {
 	os.Exit(run())
 }
@@ -52,7 +48,7 @@ func main() {
 func run() int {
 
 	// Check if required flags are set
-	if (target == "" || len(strings.Split(target, ":")) != 2 || strings.Split(target, ":")[0] == "" || strings.Split(target, ":")[1] == "") {
+	if target == "" || len(strings.Split(target, ":")) != 2 || strings.Split(target, ":")[0] == "" || strings.Split(target, ":")[1] == "" {
 		fmt.Println("Please specify target")
 		flag.PrintDefaults()
 		os.Exit(checkError)
@@ -70,7 +66,7 @@ func run() int {
 	// the ping library has it's own timing capabilities, those are used instead of Time.TargetFunction,
 
 	time, state := tests.Test_ping(data.Host())
-	if (state == checkOK){
+	if state == checkOK {
 		data.AddMetric("ping", time)
 	} else {
 		fmt.Printf("Test_Ping failed\n")
@@ -92,7 +88,7 @@ func run() int {
 
 	data.AddMetric("portscan", (tests.Test_portscan(target)+1)%2)
 
-	//Insert Data into Database and get Outliers in return
+	// Insert Data into Database and get Outliers in return
 
 	outliers := logger.InsertLog(data, percentile)
 
@@ -112,4 +108,3 @@ func run() int {
 
 	return checkWarning
 }
-

@@ -10,17 +10,17 @@ import (
 	"os"
 	"strings"
 
+	log "github.com/Daniel-WWU-IT/cs3probes/pkg/logging"
+	tests "github.com/Daniel-WWU-IT/cs3probes/pkg/tests"
+	"github.com/Daniel-WWU-IT/cs3probes/pkg/timing"
 	iop "github.com/cs3org/reva/pkg/sdk"
-	log "github.com/juriroemer/cs3probes/pkg/logging"
-	timing "github.com/juriroemer/cs3probes/pkg/timing"
-	tests "github.com/juriroemer/cs3probes/pkg/tests"
 )
 
 // Setup variables
 
 var (
-	target, user, pass string
-	warnLimit, percentile, res		int
+	target, user, pass         string
+	warnLimit, percentile, res int
 )
 
 // Setup return values
@@ -44,7 +44,6 @@ func init() {
 	flag.Parse()
 }
 
-
 func main() {
 	os.Exit(run())
 }
@@ -53,7 +52,7 @@ func run() int {
 
 	// Check if required flags are set
 
-	if (target == "" || user == "" || pass == "" || len(strings.Split(target, ":")) != 2 || strings.Split(target, ":")[0] == "" || strings.Split(target, ":")[1] == "") {
+	if target == "" || user == "" || pass == "" || len(strings.Split(target, ":")) != 2 || strings.Split(target, ":")[0] == "" || strings.Split(target, ":")[1] == "" {
 		flag.PrintDefaults()
 		os.Exit(checkError)
 	}
@@ -87,7 +86,6 @@ func run() int {
 	}
 
 	data.AddMetric("sUpload", res)
-
 
 	// Test to upload 1 bigger 100kb file
 
@@ -142,8 +140,7 @@ func run() int {
 
 	data.AddMetric("bRemove", res)
 
-
-	//Insert Data into Database and get outliers in return
+	// Insert Data into Database and get outliers in return
 
 	outliers := logger.InsertLog(data, percentile)
 
