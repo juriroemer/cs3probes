@@ -81,7 +81,7 @@ FLAGS:
 ````
 
 ### Histograms
-`histograms/histograms.py` can give you a rough graphical overview of response time distribution  
+`histograms/histograms.py` can give you a rough graphical overview of response time distribution by generating histograms for all tests as PDF.
 
 `>$ python3 ./histograms.py /path/to/database.db [98]`
 
