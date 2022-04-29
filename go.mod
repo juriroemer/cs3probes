@@ -1,4 +1,4 @@
-module hoesselbarth/cs3probes
+module github.com/juriroemer/cs3probes
 
 go 1.17
 
