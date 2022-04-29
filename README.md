@@ -1,36 +1,39 @@
 # cs3probes
 
-Die `cs3probes` implementieren API-Level Tests der CS3APIs als Nagiosproben. Zur Ausreißererkennung werden Perzentile verwendet.
+`cs3probes` is a simple API level test framework for EFSS that implement [CS3APIs](https://github.com/cs3org/cs3apis). Tests are realized as Nagios compatible probes.
 
-## Kompilieren
+
+## Compile
 
 ### `make`
 
-Alle Binaries nach `bin/`kompilieren:
+Compile all probes to `bin/`:
 
 `>$ make build`
  
-Alle Dateien aus `bin/` löschen:
+Delete all probes from `bin/`:
 
 `>$ make clean`
 
 
-Alle Dateien aus `bin/` löschen und neu kompilieren:
+Delete all probes from `bin/` and compile all probes to `/bin`:
 
 `>$ make rebuild`
 
 ### Windows
 
-Unter Windows kann der Effekt von `make build` manuell erzeugt werden:
+Compile all probes to `bin/`:
 
 `go build -o bin ./cmd/...`
 
 
-## Verwendung
-Aktuell sind drei `core`-Proben verfügbar:
+## Usage
+There are currently three `core` probes available:
+
+`network` tests availability by ping and portscan
 
 ````
->$ ./bin/network                                                                                                                                                                                                                                        ST 2   main 
+>$ ./bin/network
 
 FLAGS:
 -percentile int
@@ -41,8 +44,10 @@ FLAGS:
     minimum number of logs for outlier detection (default 100)
 ````
 
+`fsoperations` tests basic filesystem ops
+
 ````
->$ ./bin/fsoperations                                                                                                                                                                                                                               2  ST 2   main 
+>$ ./bin/fsoperations
 
 FLAGS:
   -pass string
@@ -56,6 +61,9 @@ FLAGS:
   -warnlimit int
         minimum number of logs for outlier detection (default 100)
 ````
+
+`fsspeed` tests overhead by comparing ops on 1x 100kb vs 10x 10kb files
+
 ````
 >$ ./bin/fsspeed  
 
@@ -72,9 +80,9 @@ FLAGS:
         minimum number of logs for outlier detection (default 100)
 ````
 
-### Histogramme
-Histogramme erstellen mit `histograms/histograms.py`
+### Histograms
+`histograms/histograms.py` can give you a rough graphical overview of response time distribution  
 
-`>$ python3 ./histograms.py /pfad/zur/datenbank.db [98]`
+`>$ python3 ./histograms.py /path/to/database.db [98]`
 
-Das optionale Argument lässt ein Perzentil einstellen, default-Wert ist 90.
+You may specify a percentile to highlight, as shown above (`[98]`).
