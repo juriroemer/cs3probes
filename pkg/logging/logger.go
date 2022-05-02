@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
+
 	// "reflect"
 
 	"github.com/Daniel-WWU-IT/cs3probes/pkg/outlier"
@@ -126,8 +128,8 @@ func (s *sqlLogger) prepareSqlStatements(probename string, restimes map[string]i
 		times += ", " + strconv.Itoa(t)
 	}
 
-	createProbesTableStatement := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (id INTEGER PRIMARY KEY, timestamp text, targetId%s)", "probe_"+probename, cols)
-	insertStatement := fmt.Sprintf("INSERT INTO %s (timestamp,targetId%s) VALUES (datetime('now', 'localtime'),%d %s)", "probe_"+probename, cols, targetId, times)
-
+	createProbesTableStatement := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (id INTEGER PRIMARY KEY, timestamp INTEGER, targetId%s)", "probe_"+probename, cols)
+	insertStatement := fmt.Sprintf("INSERT INTO %s (timestamp,targetId%s) VALUES (%d, %d %s)", "probe_"+probename, cols, time.Now().Unix(), targetId, times)
+	fmt.Println(insertStatement)
 	return createProbesTableStatement, insertStatement
 }
