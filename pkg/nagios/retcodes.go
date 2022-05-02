@@ -16,11 +16,11 @@
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
 
-package probes
+package nagios
 
 const (
-	checkOK      = 0
-	checkWarning = 1
-	checkError   = 2
-	checkUnknown = 3
+	CheckOK      = 0
+	CheckWarning = 1
+	CheckError   = 2
+	CheckUnknown = 3
 )

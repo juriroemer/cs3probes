@@ -8,111 +8,68 @@ import (
 
 	"github.com/Daniel-WWU-IT/cs3probes/pkg/iop"
 	log "github.com/Daniel-WWU-IT/cs3probes/pkg/logging"
+	"github.com/Daniel-WWU-IT/cs3probes/pkg/nagios"
 	"github.com/Daniel-WWU-IT/cs3probes/pkg/tests"
-	"github.com/Daniel-WWU-IT/cs3probes/pkg/timing"
 )
 
 func RunFSSpeedProbe(target string, user, pass string, warnLimit int, percentile int) int {
-
 	// Check if required flags are set
-
 	if target == "" || user == "" || pass == "" || len(strings.Split(target, ":")) != 2 || strings.Split(target, ":")[0] == "" || strings.Split(target, ":")[1] == "" {
 		flag.PrintDefaults()
-		os.Exit(checkError)
+		os.Exit(nagios.CheckError)
 	}
 
 	// Setup Logger and Log object
-
 	data, logger := log.CreateSystemLog(target, warnLimit)
 
-	// start API-Session
-
+	// Start API-Session
 	session, err := iop.CreateSession(target, user, pass)
 	if err != nil {
-		fmt.Printf("Session failed\n")
-		return checkError
+		fmt.Printf("Session creation failed: %v\n", err)
+		return nagios.CheckError
 	}
+
+	// Create testing context
+	ctx, err := tests.NewTestContext(session)
+	if err != nil {
+		fmt.Printf("Test context creation failed: %v\n", err)
+		return nagios.CheckError
+	}
+
+	ctx.BeginTests()
 
 	// Test to upload 10 small 10kb files
-
-	res, err := timing.TimeIopFunction(tests.Test_sUpload, session)
-
-	if err != nil {
-		fmt.Printf("Test_sUpload failed\n")
-		return checkError
-	}
-
+	res := ctx.RunIOPTest(tests.Test_sUpload, "Upload files")
 	data.AddMetric("sUpload", res)
 
 	// Test to upload 1 bigger 100kb file
-
-	res, err = timing.TimeIopFunction(tests.Test_bUpload, session)
-
-	if err != nil {
-		fmt.Printf("Test_bUpload failed\n")
-		return checkError
-	}
+	res = ctx.RunIOPTest(tests.Test_bUpload, "Upload file")
 	data.AddMetric("bUpload", res)
 
 	// Test to move 10 small 10kb files
-
-	res, err = timing.TimeIopFunction(tests.Test_sMove, session)
-
-	if err != nil {
-		fmt.Printf("Test_sMove failed\n")
-		return checkError
-	}
-
+	res = ctx.RunIOPTest(tests.Test_sMove, "Move files")
 	data.AddMetric("sMove", res)
 
 	// Test to move 1 bigger 100kb file
-
-	res, err = timing.TimeIopFunction(tests.Test_bMove, session)
-
-	if err != nil {
-		fmt.Printf("Test_bMove failed\n")
-		return checkError
-	}
+	res = ctx.RunIOPTest(tests.Test_bMove, "Move file")
 	data.AddMetric("bMove", res)
 
 	// Test to remove 10 small 10kb files
-
-	res, err = timing.TimeIopFunction(tests.Test_sRemove, session)
-
-	if err != nil {
-		fmt.Printf("Test_sRemove failed\n")
-		return checkError
-	}
-
+	res = ctx.RunIOPTest(tests.Test_sRemove, "Remove files")
 	data.AddMetric("sRemove", res)
 
 	// Test to remove 1 bigger 100kb file
-
-	res, err = timing.TimeIopFunction(tests.Test_bRemove, session)
-
-	if err != nil {
-		fmt.Printf("Test_bRemove failed\n")
-		return checkError
-	}
-
+	res = ctx.RunIOPTest(tests.Test_bRemove, "Remove file")
 	data.AddMetric("bRemove", res)
 
 	// Insert Data into Database and get outliers in return
-
 	outliers := logger.InsertLog(data, percentile)
 
-	// Return checkOK, if there are no outliers
+	ctx.EndTests(outliers)
 
-	if outliers == nil {
-		fmt.Printf("Probe %s ended successfully\n", data.Probe())
-		return checkOK
+	// Return CheckOK if there are no outliers
+	if outliers != nil {
+		return nagios.CheckWarning
 	}
-
-	// Else, write warnings for each outlier to stdout and return checkWarn
-	fmt.Printf("Probe %s ended with %d Warnings\n", data.Probe(), len(outliers))
-	for test, time := range outliers {
-		fmt.Printf("WARNING: Test %s took %d ms\n", test, time)
-	}
-
-	return checkWarning
+	return nagios.CheckOK
 }

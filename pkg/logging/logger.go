@@ -111,7 +111,7 @@ SELECTTARGET:
 	db.Exec(insertStatement)
 
 	// check log for outliers and return them
-	outliers := outlier.HasOutlier(float64(percentile)/100, db, l.restimes, l.probe, l.warnLimit, targetId)
+	outliers, _ := outlier.HasOutlier(float64(percentile)/100, db, l.restimes, l.probe, l.warnLimit, targetId)
 	return outliers
 }
 
