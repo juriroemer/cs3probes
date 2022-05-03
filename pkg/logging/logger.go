@@ -106,10 +106,11 @@ SELECTTARGET:
 	}
 
 	// Generate SQL statements
-	createProbesTableStatement, insertStatement := s.prepareSqlStatements(l.probe, l.restimes, targetId)
+	createProbesTableStatement, cleanseTableStatement, insertStatement := s.prepareSqlStatements(l.probe, l.restimes, targetId)
 
-	// Create probe-table if it doesn't exist, insert log into database
+	// Create probe-table if it doesn't exist, cleanse it and insert log into database
 	db.Exec(createProbesTableStatement)
+	db.Exec(cleanseTableStatement)
 	db.Exec(insertStatement)
 
 	// check log for outliers and return them
@@ -117,9 +118,9 @@ SELECTTARGET:
 	return outliers
 }
 
-// Generates "CREATE TABLE IF NOT EXISTS" and "INSERT" sql-commands according to the probe and column names provided in the log
+// Generates "CREATE TABLE IF NOT EXISTS", "DELETE" and "INSERT" sql-commands according to the probe and column names provided in the log
 // Types in "CREATE TABLE" statements are optional in sqlite3
-func (s *sqlLogger) prepareSqlStatements(probename string, restimes map[string]int, targetId int) (string, string) {
+func (s *sqlLogger) prepareSqlStatements(probename string, restimes map[string]int, targetId int) (string, string, string) {
 	var cols string
 	var times string
 	// Generates strings from testnames and testresults
@@ -128,8 +129,11 @@ func (s *sqlLogger) prepareSqlStatements(probename string, restimes map[string]i
 		times += ", " + strconv.Itoa(t)
 	}
 
+	curTime := time.Now().Unix()
+	maxAge := curTime - 30*24*60*60 // Preserve entries for 30 days
+
 	createProbesTableStatement := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s (id INTEGER PRIMARY KEY, timestamp INTEGER, targetId%s)", "probe_"+probename, cols)
-	insertStatement := fmt.Sprintf("INSERT INTO %s (timestamp,targetId%s) VALUES (%d, %d %s)", "probe_"+probename, cols, time.Now().Unix(), targetId, times)
-	fmt.Println(insertStatement)
-	return createProbesTableStatement, insertStatement
+	cleanseTableStatement := fmt.Sprintf("DELETE FROM %s WHERE targetId = %d AND timestamp <= %d", "probe_"+probename, targetId, maxAge)
+	insertStatement := fmt.Sprintf("INSERT INTO %s (timestamp,targetId%s) VALUES (%d, %d %s)", "probe_"+probename, cols, curTime, targetId, times)
+	return createProbesTableStatement, cleanseTableStatement, insertStatement
 }

@@ -39,27 +39,27 @@ func RunFSSpeedProbe(target string, user, pass string, warnLimit int, percentile
 	ctx.BeginTests()
 
 	// Test to upload 10 small 10kb files
-	res := ctx.RunIOPTest(tests.Test_sUpload, "Upload files")
+	res := ctx.RunIOPTest(tests.Test_sUpload, "Upload small files")
 	data.AddMetric("sUpload", res)
 
 	// Test to upload 1 bigger 100kb file
-	res = ctx.RunIOPTest(tests.Test_bUpload, "Upload file")
+	res = ctx.RunIOPTest(tests.Test_bUpload, "Upload big file")
 	data.AddMetric("bUpload", res)
 
 	// Test to move 10 small 10kb files
-	res = ctx.RunIOPTest(tests.Test_sMove, "Move files")
+	res = ctx.RunIOPTest(tests.Test_sMove, "Move small files")
 	data.AddMetric("sMove", res)
 
 	// Test to move 1 bigger 100kb file
-	res = ctx.RunIOPTest(tests.Test_bMove, "Move file")
+	res = ctx.RunIOPTest(tests.Test_bMove, "Move big file")
 	data.AddMetric("bMove", res)
 
 	// Test to remove 10 small 10kb files
-	res = ctx.RunIOPTest(tests.Test_sRemove, "Remove files")
+	res = ctx.RunIOPTest(tests.Test_sRemove, "Remove small files")
 	data.AddMetric("sRemove", res)
 
 	// Test to remove 1 bigger 100kb file
-	res = ctx.RunIOPTest(tests.Test_bRemove, "Remove file")
+	res = ctx.RunIOPTest(tests.Test_bRemove, "Remove big file")
 	data.AddMetric("bRemove", res)
 
 	// Insert Data into Database and get outliers in return
