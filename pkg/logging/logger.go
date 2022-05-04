@@ -73,8 +73,9 @@ func (l log) Host() string {
 
 // Opens a new database connection to log database
 func (s *sqlLogger) connect() (*sql.DB, error) {
-	_ = os.MkdirAll("./data/logs/", os.ModePerm)
-	return sql.Open("sqlite3", "./data/logs/logs.db")
+	dir := "/tmp/logs/"
+	_ = os.MkdirAll(dir, os.ModePerm)
+	return sql.Open("sqlite3", dir+"logs.db")
 }
 
 // Takes a log Type and inserts it into the database, also checks for outliers
