@@ -19,13 +19,20 @@
 package tests
 
 import (
+	"bytes"
 	"crypto/rand"
 	"fmt"
 
+	"github.com/Daniel-WWU-IT/cs3probes/pkg/iop"
 	"github.com/Daniel-WWU-IT/cs3probes/pkg/nagios"
 	"github.com/cs3org/reva/pkg/sdk"
 	"github.com/cs3org/reva/pkg/sdk/action"
 	"github.com/pkg/errors"
+)
+
+var (
+	sUploadData [][]byte
+	bUploadData []byte
 )
 
 // Tests path enumeration
@@ -81,6 +88,20 @@ func Test_upload(session *sdk.Session) (int, error) {
 	return nagios.CheckOK, nil
 }
 
+// Tests to download a file
+func Test_download(session *sdk.Session) (int, error) {
+	download := iop.MustNewDownloadAction(session)
+	data, err := download.DownloadFile("/home/fsoperations/test.txt")
+	if err != nil {
+		return nagios.CheckError, errors.Wrap(err, "unable to download test file")
+	} else {
+		if string(data) != "Hello World\n" {
+			return nagios.CheckError, errors.Errorf("downloaded test file is invalid")
+		}
+	}
+	return nagios.CheckOK, nil
+}
+
 // Tests if a file exists
 func Test_fileexists(session *sdk.Session) (int, error) {
 	fileexists := action.MustNewFileOperationsAction(session)
@@ -115,10 +136,12 @@ func Test_rmfile(session *sdk.Session) (int, error) {
 
 // Tests to upload 10 small randomly generated 10kb files
 func Test_sUpload(session *sdk.Session) (int, error) {
+	sUploadData = [][]byte{}
 	for i := 0; i < 10; i++ {
 		upload := action.MustNewUploadAction(session)
 		upload.EnableTUS = true
 		data := generateData(10 * 1024)
+		sUploadData = append(sUploadData, data)
 		targetFile := "/home/writespeed/small" + fmt.Sprint(i) + ".txt"
 		_, err := upload.UploadBytes(data, targetFile)
 		if err != nil {
@@ -129,14 +152,48 @@ func Test_sUpload(session *sdk.Session) (int, error) {
 	return nagios.CheckOK, nil
 }
 
+func Test_sDownload(session *sdk.Session) (int, error) {
+	for i := 0; i < 10; i++ {
+		targetFile := "/home/writespeed/small" + fmt.Sprint(i) + ".txt"
+		download := iop.MustNewDownloadAction(session)
+		data, err := download.DownloadFile(targetFile)
+		if err != nil {
+			return nagios.CheckError, errors.Wrapf(err, "unable to download test file %v", targetFile)
+		} else {
+			if bytes.Compare(data, sUploadData[i]) != 0 {
+				return nagios.CheckError, errors.Errorf("downloaded test file %v doesn't match uploaded data", targetFile)
+			}
+		}
+	}
+
+	return nagios.CheckOK, nil
+}
+
 // Tests upload of 1 bigger randomly generated 100kb file
 func Test_bUpload(session *sdk.Session) (int, error) {
+	bUploadData = []byte{}
 	upload := action.MustNewUploadAction(session)
 	upload.EnableTUS = true
 	data := generateData(100 * 1024)
+	bUploadData = data
 	_, err := upload.UploadBytes(data, "/home/writespeed/big.txt")
 	if err != nil {
 		return nagios.CheckError, errors.Wrap(err, "unable to upload test file")
+	}
+
+	return nagios.CheckOK, nil
+}
+
+// Tests download of 1 bigger randomly generated 100kb file
+func Test_bDownload(session *sdk.Session) (int, error) {
+	download := iop.MustNewDownloadAction(session)
+	data, err := download.DownloadFile("/home/writespeed/big.txt")
+	if err != nil {
+		return nagios.CheckError, errors.Wrap(err, "unable to download test file")
+	} else {
+		if bytes.Compare(data, bUploadData) != 0 {
+			return nagios.CheckError, errors.Errorf("downloaded test file doesn't match uploaded data")
+		}
 	}
 
 	return nagios.CheckOK, nil

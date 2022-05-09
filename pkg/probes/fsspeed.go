@@ -42,9 +42,17 @@ func RunFSSpeedProbe(target string, user, pass string, warnLimit int, percentile
 	res := ctx.RunIOPTest(tests.Test_sUpload, "Upload small files")
 	data.AddMetric("sUpload", res)
 
+	// Test to download 10 small 10kb files
+	res = ctx.RunIOPTest(tests.Test_sDownload, "Download small files")
+	data.AddMetric("sDownload", res)
+
 	// Test to upload 1 bigger 100kb file
 	res = ctx.RunIOPTest(tests.Test_bUpload, "Upload big file")
 	data.AddMetric("bUpload", res)
+
+	// Test to download 1 bigger 100kb file
+	res = ctx.RunIOPTest(tests.Test_bDownload, "Download big file")
+	data.AddMetric("bDownload", res)
 
 	// Test to move 10 small 10kb files
 	res = ctx.RunIOPTest(tests.Test_sMove, "Move small files")

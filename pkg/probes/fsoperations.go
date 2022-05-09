@@ -62,6 +62,10 @@ func RunFSOperationsProbe(target string, user, pass string, warnLimit int, perce
 	res = ctx.RunIOPTest(tests.Test_fileexists, "File exists")
 	data.AddMetric("fileexists", res)
 
+	// Time and Test to download a file
+	res = ctx.RunIOPTest(tests.Test_download, "Download file")
+	data.AddMetric("download", res)
+
 	// Time and test to move a file
 	res = ctx.RunIOPTest(tests.Test_mvfile, "Move files")
 	data.AddMetric("mvfile", res)
