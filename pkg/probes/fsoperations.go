@@ -41,6 +41,9 @@ func RunFSOperationsProbe(target string, user, pass string, warnLimit int, perce
 	// Base directory of all tests
 	root := "/home/fsoperations/"
 
+	// Initialize testing
+	tests.InitializeTests(session, root)
+
 	// Time and test file enumeration
 	res := ctx.RunIOPTest(tests.Test_ls, root, "List files")
 	data.AddMetric("ls", res)

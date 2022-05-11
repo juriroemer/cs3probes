@@ -41,6 +41,9 @@ func RunFSSpeedProbe(target string, user, pass string, warnLimit int, percentile
 	// Base directory of all tests
 	root := "/home/fsspeed/"
 
+	// Initialize testing
+	tests.InitializeTests(session, root)
+
 	// Test to upload 10 small 10kb files
 	res := ctx.RunIOPTest(tests.Test_sUpload, root, "Upload small files")
 	data.AddMetric("sUpload", res)

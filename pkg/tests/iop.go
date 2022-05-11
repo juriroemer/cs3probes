@@ -247,6 +247,12 @@ func Test_bRemove(session *sdk.Session, root string) (int, error) {
 	return nagios.CheckOK, nil
 }
 
+// Remove the testing directory, ignoring any errors
+func InitializeTests(session *sdk.Session, root string) {
+	files := action.MustNewFileOperationsAction(session)
+	_ = files.Remove(root)
+}
+
 // generates random data of given size
 func generateData(size int) []byte {
 	data := make([]byte, size)
