@@ -33,7 +33,7 @@ type TestContext struct {
 
 	messages []string
 }
-type TestIOPFunction = func(*sdk.Session) (int, error)
+type TestIOPFunction = func(*sdk.Session, string) (int, error)
 type TestNetworkFunction = func(string) (int, int, error)
 
 func (ctx *TestContext) BeginTests() {
@@ -48,8 +48,8 @@ func (ctx *TestContext) EndTests(outliers map[string]int) {
 	}
 }
 
-func (ctx *TestContext) RunIOPTest(f TestIOPFunction, testName string) int {
-	res, dur, err := ctx.timeIOPFunction(f, ctx.session)
+func (ctx *TestContext) RunIOPTest(f TestIOPFunction, root string, testName string) int {
+	res, dur, err := ctx.timeIOPFunction(f, ctx.session, root)
 	switch res {
 	case nagios.CheckWarning:
 		ctx.messages = append(ctx.messages, fmt.Sprintf("%v[%vms] - WARNING: %v", testName, dur, err))
@@ -100,9 +100,9 @@ func (ctx *TestContext) dumpMessages(outliers map[string]int) {
 	fmt.Println(msgs)
 }
 
-func (ctx *TestContext) timeIOPFunction(f TestIOPFunction, session *sdk.Session) (int, int64, error) {
+func (ctx *TestContext) timeIOPFunction(f TestIOPFunction, session *sdk.Session, root string) (int, int64, error) {
 	start := time.Now()
-	state, err := f(session)
+	state, err := f(session, root)
 	return state, time.Since(start).Milliseconds(), err
 }
 

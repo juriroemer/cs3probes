@@ -38,36 +38,39 @@ func RunFSSpeedProbe(target string, user, pass string, warnLimit int, percentile
 
 	ctx.BeginTests()
 
+	// Base directory of all tests
+	root := "/home/fsspeed/"
+
 	// Test to upload 10 small 10kb files
-	res := ctx.RunIOPTest(tests.Test_sUpload, "Upload small files")
+	res := ctx.RunIOPTest(tests.Test_sUpload, root, "Upload small files")
 	data.AddMetric("sUpload", res)
 
 	// Test to download 10 small 10kb files
-	res = ctx.RunIOPTest(tests.Test_sDownload, "Download small files")
+	res = ctx.RunIOPTest(tests.Test_sDownload, root, "Download small files")
 	data.AddMetric("sDownload", res)
 
 	// Test to upload 1 bigger 100kb file
-	res = ctx.RunIOPTest(tests.Test_bUpload, "Upload big file")
+	res = ctx.RunIOPTest(tests.Test_bUpload, root, "Upload big file")
 	data.AddMetric("bUpload", res)
 
 	// Test to download 1 bigger 100kb file
-	res = ctx.RunIOPTest(tests.Test_bDownload, "Download big file")
+	res = ctx.RunIOPTest(tests.Test_bDownload, root, "Download big file")
 	data.AddMetric("bDownload", res)
 
 	// Test to move 10 small 10kb files
-	res = ctx.RunIOPTest(tests.Test_sMove, "Move small files")
+	res = ctx.RunIOPTest(tests.Test_sMove, root, "Move small files")
 	data.AddMetric("sMove", res)
 
 	// Test to move 1 bigger 100kb file
-	res = ctx.RunIOPTest(tests.Test_bMove, "Move big file")
+	res = ctx.RunIOPTest(tests.Test_bMove, root, "Move big file")
 	data.AddMetric("bMove", res)
 
 	// Test to remove 10 small 10kb files
-	res = ctx.RunIOPTest(tests.Test_sRemove, "Remove small files")
+	res = ctx.RunIOPTest(tests.Test_sRemove, root, "Remove small files")
 	data.AddMetric("sRemove", res)
 
 	// Test to remove 1 bigger 100kb file
-	res = ctx.RunIOPTest(tests.Test_bRemove, "Remove big file")
+	res = ctx.RunIOPTest(tests.Test_bRemove, root, "Remove big file")
 	data.AddMetric("bRemove", res)
 
 	// Insert Data into Database and get outliers in return

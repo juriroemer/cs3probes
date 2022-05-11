@@ -38,40 +38,43 @@ func RunFSOperationsProbe(target string, user, pass string, warnLimit int, perce
 
 	ctx.BeginTests()
 
+	// Base directory of all tests
+	root := "/home/fsoperations/"
+
 	// Time and test file enumeration
-	res := ctx.RunIOPTest(tests.Test_ls, "List files")
+	res := ctx.RunIOPTest(tests.Test_ls, root, "List files")
 	data.AddMetric("ls", res)
 
 	// Time and test to create a directory
-	res = ctx.RunIOPTest(tests.Test_mkdir, "Make directory")
+	res = ctx.RunIOPTest(tests.Test_mkdir, root, "Make directory")
 	data.AddMetric("mkdir", res)
 
 	// Time and test operation "directory exists"
-	res = ctx.RunIOPTest(tests.Test_direxists, "Directory exists")
+	res = ctx.RunIOPTest(tests.Test_direxists, root, "Directory exists")
 	data.AddMetric("direxists", res)
 
 	// Time and test to remova a directory
-	res = ctx.RunIOPTest(tests.Test_rmdir, "Remove directory")
+	res = ctx.RunIOPTest(tests.Test_rmdir, root, "Remove directory")
 	data.AddMetric("rmdir", res)
 
 	// Time and Test to upload a file
-	res = ctx.RunIOPTest(tests.Test_upload, "Upload file")
+	res = ctx.RunIOPTest(tests.Test_upload, root, "Upload file")
 	data.AddMetric("upload", res)
 
 	// Time and Test operation "file exists"
-	res = ctx.RunIOPTest(tests.Test_fileexists, "File exists")
+	res = ctx.RunIOPTest(tests.Test_fileexists, root, "File exists")
 	data.AddMetric("fileexists", res)
 
 	// Time and Test to download a file
-	res = ctx.RunIOPTest(tests.Test_download, "Download file")
+	res = ctx.RunIOPTest(tests.Test_download, root, "Download file")
 	data.AddMetric("download", res)
 
 	// Time and test to move a file
-	res = ctx.RunIOPTest(tests.Test_mvfile, "Move files")
+	res = ctx.RunIOPTest(tests.Test_mvfile, root, "Move files")
 	data.AddMetric("mvfile", res)
 
 	// Time and test to remove a file
-	res = ctx.RunIOPTest(tests.Test_rmfile, "Remove files")
+	res = ctx.RunIOPTest(tests.Test_rmfile, root, "Remove files")
 	data.AddMetric("rmfile", res)
 
 	// Insert Data into database and get outliers in return
