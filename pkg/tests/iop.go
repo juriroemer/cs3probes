@@ -24,7 +24,6 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/Daniel-WWU-IT/cs3probes/pkg/iop"
 	"github.com/Daniel-WWU-IT/cs3probes/pkg/nagios"
 	"github.com/cs3org/reva/pkg/sdk"
 	"github.com/cs3org/reva/pkg/sdk/action"
@@ -91,7 +90,7 @@ func Test_upload(session *sdk.Session, root string) (int, error) {
 
 // Tests to download a file
 func Test_download(session *sdk.Session, root string) (int, error) {
-	download := iop.MustNewDownloadAction(session)
+	download := action.MustNewDownloadAction(session)
 	data, err := download.DownloadFile(path.Join(root, "test.txt"))
 	if err != nil {
 		return nagios.CheckError, errors.Wrap(err, "unable to download test file")
@@ -156,7 +155,7 @@ func Test_sUpload(session *sdk.Session, root string) (int, error) {
 func Test_sDownload(session *sdk.Session, root string) (int, error) {
 	for i := 0; i < 10; i++ {
 		targetFile := path.Join(root, "small"+fmt.Sprint(i)+".txt")
-		download := iop.MustNewDownloadAction(session)
+		download := action.MustNewDownloadAction(session)
 		data, err := download.DownloadFile(targetFile)
 		if err != nil {
 			return nagios.CheckError, errors.Wrapf(err, "unable to download test file %v", targetFile)
@@ -187,7 +186,7 @@ func Test_bUpload(session *sdk.Session, root string) (int, error) {
 
 // Tests download of 1 bigger randomly generated 100kb file
 func Test_bDownload(session *sdk.Session, root string) (int, error) {
-	download := iop.MustNewDownloadAction(session)
+	download := action.MustNewDownloadAction(session)
 	data, err := download.DownloadFile(path.Join(root, "big.txt"))
 	if err != nil {
 		return nagios.CheckError, errors.Wrap(err, "unable to download test file")
