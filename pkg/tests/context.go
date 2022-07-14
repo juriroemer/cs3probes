@@ -89,7 +89,7 @@ func (ctx *TestContext) RunNetworkTest(f TestNetworkFunction, target string, tes
 }
 
 func (ctx *TestContext) cleanup() {
-	if ctx.session.IsValid() {
+	if ctx.session != nil && ctx.session.IsValid() {
 		// Physically remove all generated files from the recycle bin
 		if recycleAct, err := action.NewRecycleOperationsAction(ctx.session); err == nil {
 			_ = recycleAct.Purge()
