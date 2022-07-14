@@ -46,6 +46,7 @@ func (ctx *TestContext) EndTests(outliers map[string]int) {
 	} else {
 		fmt.Println("All tests succeeded w/o warnings")
 	}
+	ctx.cleanup()
 }
 
 func (ctx *TestContext) RunIOPTest(f TestIOPFunction, root string, testName string) int {
@@ -60,6 +61,7 @@ func (ctx *TestContext) RunIOPTest(f TestIOPFunction, root string, testName stri
 
 	if res == nagios.CheckError {
 		ctx.dumpMessages(nil)
+		ctx.cleanup()
 		os.Exit(res)
 	}
 
@@ -78,10 +80,18 @@ func (ctx *TestContext) RunNetworkTest(f TestNetworkFunction, target string, tes
 
 	if res == nagios.CheckError {
 		ctx.dumpMessages(nil)
+		ctx.cleanup()
 		os.Exit(res)
 	}
 
 	return res, val
+}
+
+func (ctx *TestContext) cleanup() {
+	if ctx.session.IsValid() {
+		// Physically remove all generated files from the recycle bin
+		_ = PurgeRecycleBin(ctx.session)
+	}
 }
 
 func (ctx *TestContext) dumpMessages(outliers map[string]int) {
