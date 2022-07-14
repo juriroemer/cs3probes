@@ -27,7 +27,7 @@ github.com/cs3org/go-cs3apis/cs3/storage/provider/v1beta1
 github.com/cs3org/go-cs3apis/cs3/storage/registry/v1beta1
 github.com/cs3org/go-cs3apis/cs3/tx/v1beta1
 github.com/cs3org/go-cs3apis/cs3/types/v1beta1
-# github.com/cs3org/reva v1.18.1-0.20220516114858-b62ead53519e
+# github.com/cs3org/reva v1.19.1-0.20220714092251-de389ee3edb5
 ## explicit; go 1.16
 github.com/cs3org/reva/internal/grpc/interceptors/appctx
 github.com/cs3org/reva/internal/grpc/interceptors/auth
@@ -123,11 +123,11 @@ github.com/google/uuid
 ## explicit; go 1.14
 github.com/grpc-ecosystem/go-grpc-middleware
 github.com/grpc-ecosystem/go-grpc-middleware/recovery
-# github.com/hashicorp/go-hclog v1.2.0
+# github.com/hashicorp/go-hclog v1.2.1
 ## explicit; go 1.13
 github.com/hashicorp/go-hclog
-# github.com/hashicorp/go-plugin v1.4.3
-## explicit; go 1.13
+# github.com/hashicorp/go-plugin v1.4.4
+## explicit; go 1.17
 github.com/hashicorp/go-plugin
 github.com/hashicorp/go-plugin/internal/plugin
 # github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb
@@ -157,7 +157,7 @@ github.com/oklog/run
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
-# github.com/rs/zerolog v1.26.1
+# github.com/rs/zerolog v1.27.0
 ## explicit; go 1.15
 github.com/rs/zerolog
 github.com/rs/zerolog/internal/cbor
@@ -238,7 +238,7 @@ golang.org/x/net/trace
 # golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 ## explicit
 golang.org/x/sync/errgroup
-# golang.org/x/sys v0.0.0-20220412211240-33da011f77ad
+# golang.org/x/sys v0.0.0-20220503163025-988cb79eb6c6
 ## explicit; go 1.17
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
@@ -254,7 +254,7 @@ golang.org/x/text/unicode/norm
 ## explicit; go 1.15
 google.golang.org/genproto/googleapis/rpc/status
 google.golang.org/genproto/protobuf/field_mask
-# google.golang.org/grpc v1.46.0
+# google.golang.org/grpc v1.47.0
 ## explicit; go 1.14
 google.golang.org/grpc
 google.golang.org/grpc/attributes

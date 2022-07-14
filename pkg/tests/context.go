@@ -26,6 +26,7 @@ import (
 
 	"github.com/Daniel-WWU-IT/cs3probes/pkg/nagios"
 	"github.com/cs3org/reva/pkg/sdk"
+	"github.com/cs3org/reva/pkg/sdk/action"
 )
 
 type TestContext struct {
@@ -90,7 +91,9 @@ func (ctx *TestContext) RunNetworkTest(f TestNetworkFunction, target string, tes
 func (ctx *TestContext) cleanup() {
 	if ctx.session.IsValid() {
 		// Physically remove all generated files from the recycle bin
-		_ = PurgeRecycleBin(ctx.session)
+		if recycleAct, err := action.NewRecycleOperationsAction(ctx.session); err == nil {
+			_ = recycleAct.Purge()
+		}
 	}
 }
 
