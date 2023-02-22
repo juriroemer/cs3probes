@@ -1,6 +1,6 @@
 module github.com/Daniel-WWU-IT/cs3probes
 
-go 1.17
+go 1.19
 
 require (
 	github.com/cs3org/reva v1.22.0
