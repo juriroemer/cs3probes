@@ -4,7 +4,7 @@ github.com/Azure/go-ntlmssp
 # github.com/bluele/gcache v0.0.2
 ## explicit; go 1.15
 github.com/bluele/gcache
-# github.com/cs3org/go-cs3apis v0.0.0-20220330081745-2ad58f5932b9
+# github.com/cs3org/go-cs3apis v0.0.0-20221004162747-f20ee4756d90
 ## explicit; go 1.13
 github.com/cs3org/go-cs3apis/cs3/app/provider/v1beta1
 github.com/cs3org/go-cs3apis/cs3/app/registry/v1beta1
@@ -27,8 +27,8 @@ github.com/cs3org/go-cs3apis/cs3/storage/provider/v1beta1
 github.com/cs3org/go-cs3apis/cs3/storage/registry/v1beta1
 github.com/cs3org/go-cs3apis/cs3/tx/v1beta1
 github.com/cs3org/go-cs3apis/cs3/types/v1beta1
-# github.com/cs3org/reva v1.19.1-0.20220714092251-de389ee3edb5
-## explicit; go 1.16
+# github.com/cs3org/reva v1.22.0
+## explicit; go 1.19
 github.com/cs3org/reva/internal/grpc/interceptors/appctx
 github.com/cs3org/reva/internal/grpc/interceptors/auth
 github.com/cs3org/reva/internal/grpc/interceptors/log
@@ -73,11 +73,9 @@ github.com/cs3org/reva/pkg/storage/fs/registry
 github.com/cs3org/reva/pkg/token
 github.com/cs3org/reva/pkg/token/manager/registry
 github.com/cs3org/reva/pkg/trace
+github.com/cs3org/reva/pkg/user
 github.com/cs3org/reva/pkg/utils
 github.com/cs3org/reva/pkg/utils/resourceid
-# github.com/cubewise-code/go-mime v0.0.0-20200519001935-8c5762b177d8
-## explicit
-github.com/cubewise-code/go-mime
 # github.com/eventials/go-tus v0.0.0-20200718001131-45c7ec8f5d59
 ## explicit; go 1.13
 github.com/eventials/go-tus
@@ -85,6 +83,9 @@ github.com/eventials/go-tus/memorystore
 # github.com/fatih/color v1.13.0
 ## explicit; go 1.13
 github.com/fatih/color
+# github.com/glpatcern/go-mime v0.0.0-20221026162842-2a8d71ad17a9
+## explicit
+github.com/glpatcern/go-mime
 # github.com/go-asn1-ber/asn1-ber v1.5.4
 ## explicit; go 1.13
 github.com/go-asn1-ber/asn1-ber
@@ -142,7 +143,7 @@ github.com/mattn/go-isatty
 # github.com/mattn/go-sqlite3 v1.14.11
 ## explicit; go 1.12
 github.com/mattn/go-sqlite3
-# github.com/mileusna/useragent v1.0.2
+# github.com/mileusna/useragent v1.2.1
 ## explicit; go 1.14
 github.com/mileusna/useragent
 # github.com/mitchellh/go-testing-interface v1.14.1
@@ -187,18 +188,20 @@ go.opencensus.io/trace/tracestate
 ## explicit; go 1.16
 go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc
 go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc/internal
-# go.opentelemetry.io/otel v1.7.0
-## explicit; go 1.16
+# go.opentelemetry.io/otel v1.11.1
+## explicit; go 1.18
 go.opentelemetry.io/otel
 go.opentelemetry.io/otel/attribute
 go.opentelemetry.io/otel/baggage
 go.opentelemetry.io/otel/codes
 go.opentelemetry.io/otel/internal
+go.opentelemetry.io/otel/internal/attribute
 go.opentelemetry.io/otel/internal/baggage
 go.opentelemetry.io/otel/internal/global
 go.opentelemetry.io/otel/propagation
 go.opentelemetry.io/otel/semconv/internal
 go.opentelemetry.io/otel/semconv/v1.10.0
+go.opentelemetry.io/otel/semconv/v1.12.0
 go.opentelemetry.io/otel/semconv/v1.4.0
 # go.opentelemetry.io/otel/exporters/jaeger v1.7.0
 ## explicit; go 1.16
@@ -207,20 +210,20 @@ go.opentelemetry.io/otel/exporters/jaeger/internal/gen-go/agent
 go.opentelemetry.io/otel/exporters/jaeger/internal/gen-go/jaeger
 go.opentelemetry.io/otel/exporters/jaeger/internal/gen-go/zipkincore
 go.opentelemetry.io/otel/exporters/jaeger/internal/third_party/thrift/lib/go/thrift
-# go.opentelemetry.io/otel/sdk v1.7.0
-## explicit; go 1.16
+# go.opentelemetry.io/otel/sdk v1.11.1
+## explicit; go 1.18
 go.opentelemetry.io/otel/sdk/instrumentation
 go.opentelemetry.io/otel/sdk/internal
 go.opentelemetry.io/otel/sdk/internal/env
 go.opentelemetry.io/otel/sdk/resource
 go.opentelemetry.io/otel/sdk/trace
-# go.opentelemetry.io/otel/trace v1.7.0
-## explicit; go 1.16
+# go.opentelemetry.io/otel/trace v1.11.1
+## explicit; go 1.18
 go.opentelemetry.io/otel/trace
-# golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29
+# golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa
 ## explicit; go 1.17
 golang.org/x/crypto/md4
-# golang.org/x/net v0.0.0-20220325170049-de3da57026de
+# golang.org/x/net v0.1.0
 ## explicit; go 1.17
 golang.org/x/net/bpf
 golang.org/x/net/context
@@ -235,16 +238,16 @@ golang.org/x/net/internal/timeseries
 golang.org/x/net/ipv4
 golang.org/x/net/ipv6
 golang.org/x/net/trace
-# golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
+# golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4
 ## explicit
 golang.org/x/sync/errgroup
-# golang.org/x/sys v0.0.0-20220503163025-988cb79eb6c6
+# golang.org/x/sys v0.2.0
 ## explicit; go 1.17
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 golang.org/x/sys/windows/registry
-# golang.org/x/text v0.3.7
+# golang.org/x/text v0.5.0
 ## explicit; go 1.17
 golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
@@ -308,7 +311,7 @@ google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-# google.golang.org/protobuf v1.28.0
+# google.golang.org/protobuf v1.28.1
 ## explicit; go 1.11
 google.golang.org/protobuf/encoding/protojson
 google.golang.org/protobuf/encoding/prototext

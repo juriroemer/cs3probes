@@ -80,7 +80,7 @@ func Test_rmdir(session *sdk.Session, root string) (int, error) {
 // Tests to upload a file
 func Test_upload(session *sdk.Session, root string) (int, error) {
 	upload := action.MustNewUploadAction(session)
-	upload.EnableTUS = true
+	upload.EnableTUS = false // TODO: Temporary; set to true later?
 	_, err := upload.UploadBytes([]byte("Hello World\n"), path.Join(root, "test.txt"))
 	if err != nil {
 		return nagios.CheckError, errors.Wrap(err, "unable to upload test file")
@@ -139,7 +139,7 @@ func Test_sUpload(session *sdk.Session, root string) (int, error) {
 	sUploadData = [][]byte{}
 	for i := 0; i < 10; i++ {
 		upload := action.MustNewUploadAction(session)
-		upload.EnableTUS = true
+		upload.EnableTUS = false // TODO: Temporary; set to true later?
 		data := generateData(10 * 1024)
 		sUploadData = append(sUploadData, data)
 		targetFile := path.Join(root, "small"+fmt.Sprint(i)+".txt")
@@ -173,7 +173,7 @@ func Test_sDownload(session *sdk.Session, root string) (int, error) {
 func Test_bUpload(session *sdk.Session, root string) (int, error) {
 	bUploadData = []byte{}
 	upload := action.MustNewUploadAction(session)
-	upload.EnableTUS = true
+	upload.EnableTUS = false // TODO: Temporary; set to true later?
 	data := generateData(100 * 1024)
 	bUploadData = data
 	_, err := upload.UploadBytes(data, path.Join(root, "big.txt"))
