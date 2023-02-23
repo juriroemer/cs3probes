@@ -34,7 +34,7 @@ func Test_ping(target string) (int, int, error) {
 	if err != nil {
 		return nagios.CheckError, 0, errors.Wrap(err, "unable to create pinger")
 	}
-	pinger.SetPrivileged(true)
+	pinger.SetPrivileged(false)
 	pinger.Count = 3
 	pinger.Timeout = time.Second
 	err = pinger.Run() // Blocks until finished.

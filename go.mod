@@ -4,11 +4,11 @@ go 1.19
 
 require (
 	github.com/cs3org/reva v1.22.0
-	github.com/mattn/go-sqlite3 v1.14.11
+	github.com/mattn/go-sqlite3 v1.14.16
 )
 
 require (
-	github.com/go-ping/ping v0.0.0-20211130115550-779d1e919534
+	github.com/go-ping/ping v1.1.0
 	github.com/pkg/errors v0.9.1
 )
 
